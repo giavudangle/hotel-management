@@ -9,8 +9,8 @@ const RoomSchema = new mongoose.Schema({
         type:String,
         validate: {
             validator:function(name){
-                if(name !== 'A' || name !=='B' || name !=='C') return false;            
-                return true   
+               return (name === 'A' || name ==='B' || name ==='C')            
+              
             },
             message:'Loại phòng phải là : A,B,C'
         },
