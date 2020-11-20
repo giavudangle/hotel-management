@@ -25,4 +25,60 @@ const createRoom = async (req, res) => {
     })
 }
 
-module.exports = {getListRooms,createRoom};
+
+const updateRoom = async (req,res) => {
+    const roomId = req.params.id;
+
+    Room.findByIdAndUpdate({_id:roomId},{$set:req.body}).exec()
+    .then(data => {
+        res.status(200).json({
+            message:"Record has been updated",
+            data
+        })
+    })
+    .catch(e => {
+        res.status(500).json({
+            message:"Somethings went wrong => " + e.message
+        })
+    })
+    
+}
+
+const deleteRoomById = async (req,res) => {
+    const roomId = req.params.id;
+
+    Room.deleteOne({_id:roomId}).exec()
+    .then(() => {
+        res.status(200).json({
+            message:"Record has been deleted"
+        })
+    })
+}
+
+const getRoomById = (req,res) => {
+    const roomId= req.params.id;
+    Room.findById(roomId).exec()
+    .then((data) => {
+        if(data == null) {
+            res.status(200).json({
+                message:"Not Found",            
+            })
+        }
+        else {
+            res.status(200).json({
+                message:"Found",
+                data
+            }) 
+        }
+       
+    })
+    .catch((e) => {
+        res.status(500).json({
+            message:"Something went wrong => " + e.message
+        })
+    }) 
+}
+
+
+
+module.exports = {getListRooms,createRoom,updateRoom,getRoomById,deleteRoomById};
